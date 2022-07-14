@@ -25,8 +25,8 @@ if page == 'Mapa':
 
     col1, col2 = st.columns(2)
 
-    from_hour_morning = col1.slider('Rano od', min_value=5, max_value=12)
-    to_hour_morning = col1.slider('Rano do', min_value=5, max_value=12)
+    from_hour_morning = col1.slider('Rano od', min_value=5, max_value=12, value=5)
+    to_hour_morning = col1.slider('Rano do', min_value=5, max_value=12, value=9)
     col1.write('Pocatecni stanice rano mezi {} a {}'.format(from_hour_morning,
                                                               to_hour_morning))
     query_morning = """SELECT
@@ -39,14 +39,17 @@ if page == 'Mapa':
     df_bikes_morning   = pd.read_sql(sql=query_morning, con=engine)
     col1.map(df_bikes_morning)
 
-    col2.write('Pocatecni stanice odpoledne mezi 15 a 19')
+    from_hour_afternoon = col2.slider('Vecer od', min_value=12, max_value=23, value=15)
+    to_hour_afternoon = col2.slider('Vecer do', min_value=12, max_value=23, value=19)
+    col2.write('Pocatecni stanice odpoledne mezi {} a {}'.format(from_hour_afternoon,
+                                                                 to_hour_afternoon))
     query_afternoon = """SELECT
                        start_station_latitude as lat,
                        start_station_longitude as lon
                     FROM edinburgh_bikes
-                    WHERE hour(started_at) BETWEEN 15 AND 19
+                    WHERE hour(started_at) BETWEEN {} AND {}
                     LIMIT 100000
-                """
+                """.format(from_hour_afternoon, to_hour_afternoon)
     df_bikes_afternoon = pd.read_sql(sql=query_afternoon, con=engine)
     col2.map(df_bikes_afternoon)
 
