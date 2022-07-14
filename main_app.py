@@ -96,9 +96,10 @@ if page == 'Thomson':
 
 if page == 'Covid':
 
-    query_countries = 'SELECT DISTINCT country FROM covid19_basic_differences'
+    query_countries = 'SELECT DISTINCT country as country FROM covid19_basic_differences'
     df_countries = pd.read_sql(sql=query_countries, con=engine)
     list_of_countries = df_countries['country'].values.tolist()
+    st.write(list_of_countries)
 
     country = st.sidebar.multiselect(
      'Pick up country',
@@ -113,7 +114,7 @@ if page == 'Covid':
                 'measures':'sum(confirmed) as confirmed',
                 'filters':[filter_country,"date>='2020-01-01'"]}
 
-    st.write(sql_dict['filters'])            
+    st.write(sql_dict['filters'])
     query_for_covid = dict_to_sql(sql_dict)
     df_covid = pd.read_sql(sql=query_for_covid, con=engine)
     st.write(df_covid)
