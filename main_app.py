@@ -121,15 +121,15 @@ if page == 'Covid':
     col1.write(df_covid)
 
 
-    # brush = alt.selection(type='interval', encodings=['x'])
-    # selection = alt.selection_multi(fields=['country'], bind='legend')
+    brush = alt.selection(type='interval', encodings=['x'])
+    selection = alt.selection_multi(fields=['country'], bind='legend')
 
     base_chart = alt.Chart(df_covid).mark_line().encode(
             x='date',
             y=alt.Y('confirmed', scale=alt.Scale(zero=False)),
             color='country'
-        #     opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
-        # ).add_selection(
-        #     selection
+            opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+        ).add_selection(
+            selection
         )
-    col2.altair_chart(base_chart)
+    col2.altair_chart(base_chart, use_container_width=True)
