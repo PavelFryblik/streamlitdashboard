@@ -43,7 +43,7 @@ def to_filter(filter_name, filter_values):
         base = base + "'" + values + "',"
     base = base[:-1] + ")'"
     return base
-    
+
 # ##################
 # Data
 # ##################
@@ -114,7 +114,7 @@ if page == 'Covid':
     sql_dict = {'table':'covid19_basic_differences',
                 'columns':['date','country'],
                 'measures':'sum(confirmed) as confirmed',
-                'filters':[filter_country,"date>='2020-01-01'"]}
+                'filters':[filter_country]}
 
     st.write(sql_dict['filters'])
     query_for_covid = dict_to_sql(sql_dict)
