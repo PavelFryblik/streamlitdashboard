@@ -40,7 +40,7 @@ def to_filter(filter_name, filter_values):
     base = "'" + filter_name + ' IN ('
 
     for values in filter_values:
-        base = base + "'" values + "',"
+        base = base + "'" + values + "',"
     base = base[:-1] + ")'"
 
 # ##################
