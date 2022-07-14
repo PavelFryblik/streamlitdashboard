@@ -6,6 +6,43 @@ import pymysql
 import plotly.graph_objects as go
 import plotly.express as px
 
+
+# ##################
+# Funkce
+# ##################
+def dict_to_sql(dict):
+  base = 'SELECT '
+
+  # dimensions
+  for column in dict['columns']:
+    base = base + column + ','
+
+  # measures
+  base = base + dict['measures']
+
+  # from
+  base = base + ' FROM ' + dict['table']
+
+  # where
+  base = base + ' WHERE 1=1'
+  for filter in dict['filters']:
+    base = base + ' AND ' + filter
+
+  # group by
+  base = base + ' GROUP BY '
+  for column in dict['columns']:
+    base = base + column + ','
+
+  return base[:-1]
+
+
+def to_filter(filter_name, filter_values):
+    base = "'" filter_name + ' IN ('
+
+    for values in filter_values:
+        base = base + "'" values + "',"
+    base = base[:-1] + ")'"
+
 # ##################
 # Data
 # ##################
@@ -18,7 +55,7 @@ engine = create_engine("mysql+pymysql://data-student:u9AB6hWGsNkNcRDm@data.enget
 st.set_page_config(layout="wide")
 st.title('Moje prvni appka')
 
-page = st.sidebar.radio('Select page', ['Mapa','Thomson'])
+page = st.sidebar.radio('Select page', ['Mapa','Thomson','Covid'])
 
 if page == 'Mapa':
     st.header('Mapa pouzivani sdilenych kol v Edinburgu')
@@ -55,3 +92,27 @@ if page == 'Mapa':
 
 if page == 'Thomson':
     st.write('Thomson sampling')
+
+
+if page == 'Covid':
+
+    query_countries = 'SELECT DISTINCT country FROM covid19_basic_differences'
+    df_countries = pd.read_sql(sql=query_countries, con=engine)
+    list_of_countries = df_countries.values.tolist()
+
+    country = st.sidebar.multiselect(
+     'Pick up country',
+        list_of_countries,
+        ['Czechia'])
+
+    filter_country = to_filter('country',country)
+    st.write(filter_country)
+
+    sql_dict = {'table':'covid19_basic_differences',
+                'columns':['date','country'],
+                'measures':'sum(confirmed) as confirmed',
+                'filters':[filter_country]}
+
+    query_for_covid = dict_to_sql(sql_dict)
+    df_covid = pd.read_sql(sql=query_for_covid, con=engine)
+    st.write(df_covid)
