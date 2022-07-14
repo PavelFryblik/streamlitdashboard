@@ -42,7 +42,8 @@ def to_filter(filter_name, filter_values):
     for values in filter_values:
         base = base + "'" + values + "',"
     base = base[:-1] + ")'"
-
+    return base
+    
 # ##################
 # Data
 # ##################
