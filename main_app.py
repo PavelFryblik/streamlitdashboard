@@ -5,6 +5,8 @@ import pymysql
 
 import plotly.graph_objects as go
 import plotly.express as px
+import altair as alt
+
 
 
 # ##################
@@ -106,7 +108,6 @@ if page == 'Covid':
         list_of_countries,
         ['Czechia'])
 
-    st.write(country)
     filter_country = to_filter('country',country)
 
     sql_dict = {'table':'covid19_basic_differences',
