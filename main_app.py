@@ -106,6 +106,7 @@ if page == 'Covid':
         list_of_countries,
         ['Czechia'])
 
+    st.write(country)
     filter_country = to_filter('country',country)
     st.write(filter_country)
 
