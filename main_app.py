@@ -100,7 +100,6 @@ if page == 'Covid':
     query_countries = 'SELECT DISTINCT country as country FROM covid19_basic_differences'
     df_countries = pd.read_sql(sql=query_countries, con=engine)
     list_of_countries = df_countries['country'].values.tolist()
-    st.write(list_of_countries)
 
     country = st.sidebar.multiselect(
      'Pick up country',
@@ -109,7 +108,6 @@ if page == 'Covid':
 
     st.write(country)
     filter_country = to_filter('country',country)
-    st.write(filter_country)
 
     sql_dict = {'table':'covid19_basic_differences',
                 'columns':['date','country'],
@@ -118,5 +116,6 @@ if page == 'Covid':
 
     st.write(sql_dict['filters'])
     query_for_covid = dict_to_sql(sql_dict)
+    st.write(query_for_covid)
     df_covid = pd.read_sql(sql=query_for_covid, con=engine)
     st.write(df_covid)
