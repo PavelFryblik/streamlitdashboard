@@ -127,7 +127,7 @@ if page == 'Covid':
     base_chart = alt.Chart(df_covid).mark_line().encode(
             x='date',
             y=alt.Y('confirmed', scale=alt.Scale(zero=False)),
-            color='country'
+            color='country',
             opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
         ).add_selection(
             selection
