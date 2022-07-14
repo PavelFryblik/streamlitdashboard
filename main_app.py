@@ -111,7 +111,7 @@ if page == 'Covid':
     sql_dict = {'table':'covid19_basic_differences',
                 'columns':['date','country'],
                 'measures':'sum(confirmed) as confirmed',
-                'filters':[filter_country]}
+                'filters':[filter_country,"date>='2020-01-01'"]}
 
     query_for_covid = dict_to_sql(sql_dict)
     df_covid = pd.read_sql(sql=query_for_covid, con=engine)
