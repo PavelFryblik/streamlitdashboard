@@ -116,6 +116,6 @@ if page == 'Covid':
 
     query_for_covid = dict_to_sql(sql_dict)
     df_covid = pd.read_sql(sql=query_for_covid, con=engine)
-    col1, col2 = st.columns(1,2)
+    col1, col2 = st.columns(2)
     col1.write(df_covid)
     col2.line_chart(df_covid)
