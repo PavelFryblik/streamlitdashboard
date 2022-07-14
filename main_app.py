@@ -114,8 +114,8 @@ if page == 'Covid':
                 'measures':'sum(confirmed) as confirmed',
                 'filters':[filter_country]}
 
-    st.write(sql_dict['filters'])
     query_for_covid = dict_to_sql(sql_dict)
-    st.write(query_for_covid)
     df_covid = pd.read_sql(sql=query_for_covid, con=engine)
-    st.write(df_covid)
+    col1, col2 = st.columns(1,2)
+    col1.write(df_covid)
+    col2.line_chart(df_covid)
