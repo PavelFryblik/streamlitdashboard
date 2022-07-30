@@ -1,6 +1,5 @@
 altair==4.2.0
 SQLAlchemy==1.4.39
-mysql
 pymysql
 pandas
 streamlit
