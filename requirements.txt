@@ -1,6 +1,6 @@
 altair==4.2.0
 SQLAlchemy==1.4.39
-mariadb
+mysql
 pymysql
 pandas
 streamlit
